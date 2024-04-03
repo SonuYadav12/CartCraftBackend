@@ -3,13 +3,13 @@ const app = express();
 const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
-const Product = require("./model/modelSchema");
 const dotenv = require("dotenv");
 const connectDB = require("./db/connectDB");
 dotenv.config();
 const port = process.env.PORT || 5001;
 connectDB();
 const route = require("./routes/route");
+
 
 app.use(express.json());
 app.use(cors());
@@ -40,6 +40,9 @@ app.post("/upload", upload.single("product"), (req, res) => {
 app.post("/upload/multiple", upload.array("product", 10), (req, res) => {
   return res.send("Multiple files");
 });
+
+
+
 
 app.use("/", route);
 

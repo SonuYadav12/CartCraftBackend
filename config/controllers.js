@@ -1,5 +1,7 @@
 const express = require("express");
 const Product = require("../model/modelSchema");
+const jwt = require("jsonwebtoken");
+const UserSchema = require("../model/UserSchema");
 
 const mainpage = (req, res) => {
   res.send("Hello world");
@@ -61,7 +63,67 @@ const allProduct = async (req, res) => {
   }
 };
 
+const SignUP=async (req, res) => {
+  let check = await UserSchema.findOne({ email: req.body.email });
+  if (check) {
+    return res.status(400).json({ success: false, errors: "existing user" });
+  }
+  let cart = {};
+  for (let i = 0; i < 300; i++) {
+    cart[i] = 0;
+  }
+
+  const user = new UserSchema({
+    name: req.body.username,
+    email: req.body.email,
+    password: req.body.password,
+    cartData: cart,
+  });
+
+  await user.save();
+
+  const data={
+    user:{
+      id:user.id
+    }
+  }
+
+  const token=jwt.sign(data,"secret_ecom");
+  res.json({
+    success:true,
+    token
+  })
+
+};
+
+const Login=async (req, res) => {
+  try {
+    const user = await UserSchema.findOne({ email: req.body.email });
+    if (user) {
+      const passwordCompare = req.body.password === user.password;
+      if (passwordCompare) {
+        const data = {
+          user: {
+            id: user.id
+          }
+        };
+        const token = jwt.sign(data, "secret_token"); // Fixed typo
+        res.json({ success: true, token });
+      } else {
+        res.json({ success: false, errors: "Wrong Password" });
+      }
+    } else {
+      res.json({ success: false, errors: "Wrong emailAddress" });
+    }
+  } catch (error) {
+    console.error("Error during login:", error);
+    res.status(500).json({ success: false, errors: "Internal server error" });
+  }
+};
+
 module.exports = {
+  SignUP,
+  Login,
   mainpage,
   addProduct,
   removeProduct,
