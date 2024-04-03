@@ -205,6 +205,23 @@ const getcart = async (req, res) => {
   res.json(userdata.cartData);
 };
 
+const authenticateToken = (req, res, next) => {
+  const token = req.headers['authorization'];
+  if (!token) {
+    return res.status(401).send('Unauthorized');
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) {
+      console.error('Token verification failed:', err);
+      return res.status(403).send('Forbidden');
+    }
+    req.user = user;
+    next();
+  });
+};
+
+
 module.exports = {
   SignUP,
   Login,
@@ -218,4 +235,5 @@ module.exports = {
   fetchUser,
   removefromcart,
   getcart,
+  authenticateToken
 };

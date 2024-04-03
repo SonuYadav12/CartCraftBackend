@@ -41,9 +41,6 @@ app.post("/upload/multiple", upload.array("product", 10), (req, res) => {
   return res.send("Multiple files");
 });
 
-
-
-
 app.use("/", route);
 
 app.listen(port, () => {
