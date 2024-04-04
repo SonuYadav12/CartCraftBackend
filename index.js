@@ -59,7 +59,7 @@ app.post("/upload", upload.single("product"), async (req, res) => {
 });
 
 
-app.use("/", route);
+app.use("/api", route);
 
 app.listen(port, () => {
   console.log("Server running on port " + port);
