@@ -225,7 +225,7 @@ const authenticateToken = (req, res, next) => {
 module.exports = {
   SignUP,
   Login,
-  // mainpage,
+  mainpage,
   addProduct,
   removeProduct,
   allProduct,
