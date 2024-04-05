@@ -64,6 +64,10 @@ app.use('/', async (req, res) => {
   res.json('Hello World ! Have a great Day');
 });
 
+app.get('/ram', async (req, res) => {
+  res.json('Hello World ! Have a great Day Ram');
+});
+
 app.listen(port, () => {
   console.log("Server running on port " + port);
 });
