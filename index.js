@@ -60,8 +60,8 @@ app.post("/upload", upload.single("product"), async (req, res) => {
 
 app.use("/api", route);
 
-app.use('/testing', async (req, res) => {
-  res.json('Hello World');
+app.use('/', async (req, res) => {
+  res.json('Hello World ! Have a great Day');
 });
 
 app.listen(port, () => {
