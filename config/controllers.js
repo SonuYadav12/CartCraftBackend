@@ -3,10 +3,6 @@ const Product = require("../model/modelSchema");
 const jwt = require("jsonwebtoken");
 const UserSchema = require("../model/UserSchema");
 
-const mainpage = (req, res) => {
-  res.send("Hello Sonu");
-};
-
 const addProduct = async (req, res) => {
   try {
     let products = await Product.find({});
@@ -225,7 +221,6 @@ const authenticateToken = (req, res, next) => {
 module.exports = {
   SignUP,
   Login,
-  mainpage,
   addProduct,
   removeProduct,
   allProduct,
